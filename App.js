@@ -6,9 +6,9 @@ export default function App() {
   const [items, setItems] =  useState([]);
   const [inputValue, setInputValue] = useState('');
 
-  const addItem = (newItem) => {
-    if(newItem !== ""){
-      setItems([...items, newItem])
+  const addItem = () => {
+    if(inputValue !== ""){
+      setItems([...items, inputValue])
       setInputValue('')
     }
   }
@@ -24,12 +24,12 @@ export default function App() {
       <View style={styles.formContainer}>
         <TextInput 
           style={styles.textInput} 
-          placeholder='Cebolla, pera, banana ...' 
+          placeholder='Producto a comprar' 
           value={inputValue} 
           onChangeText={(text)=> setInputValue(text)}/>
         <Button
             title="Add item"
-            onPress={() => addItem(inputValue)} 
+            onPress={() => addItem()} 
           />
       </View>
 
@@ -56,13 +56,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     padding: 120,
-    wdith: '100%'
+    wdith: '100%',
+    border: '1px solid black'
   },
   formContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center;',
-    marginBottom: 20
+    marginTop: 20,
+    marginBottom: 20, 
   },  
   textInput: {
     width: '100%',
