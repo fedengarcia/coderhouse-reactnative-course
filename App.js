@@ -43,26 +43,27 @@ export default function App() {
             />
           </View>
         )}
-        
       </View>
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  formContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center;'
-  },  
   container: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     padding: 120,
     wdith: '100%'
   },
+  formContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center;',
+    marginBottom: 20
+  },  
   textInput: {
     width: '100%',
     fontSize: 20,
@@ -70,10 +71,10 @@ const styles = StyleSheet.create({
   },
   itemListContainer:{
     flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems:'center',
+    justifyContent: 'flex-start',
+    alignItems:'flex-start',
     width:'100%',
-    height: 'auto'
+    height: '100%'
   },
   itemList:{
     flexDirection: 'row',
