@@ -1,10 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { Fragment, useState } from 'react';
-import { Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, FlatList, StyleSheet, Text, TextInput, View, Modal } from 'react-native';
 
 export default function App() {
   const [itemsList, setItemsList] =  useState([]);
   const [inputValue, setInputValue] = useState('');
+  const [deleteItemModal, setDeleteModal] = useState(false);
+  const [itemSelected, setItemSelected] = useState({});
+
 
   const addItem = () => {
     if(inputValue !== ""){
@@ -17,6 +20,21 @@ export default function App() {
     let itemsUpdated = itemsList.filter(element => element.id !== item.id);
     setItemsList(itemsUpdated)
   }
+
+  const renderListItem = ({item}) => (
+    <View style={styles.itemList}>
+      <Text>{item.value}</Text>
+      <Button 
+        onPress={()=> {
+          setDeleteModal(true);
+          setItemSelected(item);
+        }}
+        title="Remove item"
+      />
+    </View>
+  )
+
+  
 
   return (
     <View style={styles.container}>
@@ -35,21 +53,34 @@ export default function App() {
       </View>
 
       <View style={styles.itemListContainer}>
-      <FlatList
-          data={itemsList}
-          renderItem={({item}) => (
-            <View style={styles.itemList}>
-              <Text>{item.value}</Text>
-              <Button 
-                onPress={()=> removeItem(item)}
-                title="Remove item"
-              />
-            </View>
-          )}
-          keyExtractor={item => item.id}
-        />
-
+        <FlatList
+            data={itemsList}
+            renderItem={renderListItem}
+            keyExtractor={item => item.id}
+          />
       </View>
+
+      {deleteItemModal && 
+        <Modal
+        >
+          <View>
+            <Text> Estas seguro que deseas eliminar el {itemSelected.value}</Text>
+          </View>
+          <View styles={styles.itemListContainer}>
+            <Button 
+              title='Aceptar'
+              onPress={() => {
+                removeItem(itemSelected)
+                setDeleteModal(false)
+              }}  
+            />
+            <Button 
+              title='Cancelar'
+              onPress={() => setDeleteModal(false)}  
+            />
+          </View>
+        </Modal>
+      }
 
     </View>
   );
