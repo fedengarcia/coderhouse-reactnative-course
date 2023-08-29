@@ -1,21 +1,21 @@
 import { StatusBar } from 'expo-status-bar';
 import { Fragment, useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
 
 export default function App() {
-  const [items, setItems] =  useState([]);
+  const [itemsList, setItemsList] =  useState([]);
   const [inputValue, setInputValue] = useState('');
 
   const addItem = () => {
     if(inputValue !== ""){
-      setItems([...items, inputValue])
+      setItemsList([...itemsList, {id: Math.random(), value:inputValue}])
       setInputValue('')
     }
   }
 
   const removeItem = (item) => {
-    let itemsUpdated = items.filter(element => element !== item);
-    setItems(itemsUpdated)
+    let itemsUpdated = itemsList.filter(element => element.id !== item.id);
+    setItemsList(itemsUpdated)
   }
 
   return (
@@ -24,7 +24,8 @@ export default function App() {
       <View style={styles.formContainer}>
         <TextInput 
           style={styles.textInput} 
-          placeholder='Producto a comprar' 
+          placeholder='Producto a comprar'
+          placeholderTextColor={"#ff0000"} 
           value={inputValue} 
           onChangeText={(text)=> setInputValue(text)}/>
         <Button
@@ -34,15 +35,20 @@ export default function App() {
       </View>
 
       <View style={styles.itemListContainer}>
-        {items.map((item, i) => 
-          <View key={i} style={styles.itemList}>
-            <Text>{item}</Text>
-            <Button 
-              onPress={()=> removeItem(item)}
-              title="Remove item"
-            />
-          </View>
-        )}
+      <FlatList
+          data={itemsList}
+          renderItem={({item}) => (
+            <View style={styles.itemList}>
+              <Text>{item.value}</Text>
+              <Button 
+                onPress={()=> removeItem(item)}
+                title="Remove item"
+              />
+            </View>
+          )}
+          keyExtractor={item => item.id}
+        />
+
       </View>
 
     </View>
@@ -52,19 +58,15 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    padding: 120,
-    wdith: '100%',
-    border: '1px solid black'
+    padding: 30,
+    paddingBottom: 80,
+    backgroundColor: '#ffffff'
   },
   formContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center;',
-    marginTop: 20,
-    marginBottom: 20, 
+    // marginBottom: 20, 
   },  
   textInput: {
     width: '100%',
