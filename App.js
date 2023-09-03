@@ -32,6 +32,7 @@ export default function App() {
       
 {/* List items render */}
       <List
+        setItemSelected={setItemSelected}
         itemsList={itemsList}
         setDeleteModal={setDeleteModal}
       />
@@ -54,13 +55,13 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     padding: 20,
-    backgroundColor: '#ffe042'
+    backgroundColor: '#2f2f2f'
   },
   title:{
     margin: 50,
     fontSize: 80,
     textAlign: 'center',
     fontWeight: 'bold',
-    color: '#e71989'
+    color: '#fe6f27'
   },  
 });

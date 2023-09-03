@@ -29,7 +29,7 @@ const List = ({itemsList, setDeleteModal, setItemSelected}) => {
 
 const styles = StyleSheet.create({
     itemListContainer:{
-        borderTopColor: '#2f2f2f',
+        borderTopColor: '#fe6f27',
         marginTop: 20,
         borderTopWidth: 1,
         flexDirection: 'column',
