@@ -38,14 +38,16 @@ export default function App() {
       />
 
 {/* Modal */}
-      {deleteModal && 
+      {/* {deleteModal &&  */}
         <CustomModal
-          title={`Estas seguro que deseas eliminar el ${itemSelected.value}`}
+          modalVisible={deleteModal}
+          title={'ELIMINAR ITEM'}
+          message={`Estas seguro que deseas eliminar el ${itemSelected.value}`}
           setShowModal={setDeleteModal}
           acceptButtonName={'Aceptar'}
           cancelButtonName={'Cancelar'}
           acceptButtonFunction={removeItem}
-        />}
+        />
 
     </View>
   );
