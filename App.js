@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Fragment, useState } from 'react';
 import { Button, FlatList, StyleSheet, Text, TextInput, View, Modal } from 'react-native';
 import CustomModal from './components/CustomModal';
+import List from './components/List/List';
 
 export default function App() {
   const [itemsList, setItemsList] =  useState([]);
@@ -22,24 +23,11 @@ export default function App() {
     setItemsList(itemsUpdated)
   }
 
-  const renderListItem = ({item}) => (
-    <View style={styles.itemList}>
-      <Text>{item.value}</Text>
-      <Button 
-        onPress={()=> {
-          setDeleteModal(true);
-          setItemSelected(item);
-        }}
-        title="Remove item"
-      />
-    </View>
-  )
-
   
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Shopping List !!!</Text>
+      <Text style={styles.title}>SHOPPING LIST</Text>
 
       <View style={styles.formContainer}>
         <TextInput 
@@ -49,18 +37,16 @@ export default function App() {
           value={inputValue} 
           onChangeText={(text)=> setInputValue(text)}/>
         <Button
+            style={styles.buttonInput}
             title="Add item"
             onPress={() => addItem()} 
           />
       </View>
 
-      <View style={styles.itemListContainer}>
-        <FlatList
-            data={itemsList}
-            renderItem={renderListItem}
-            keyExtractor={item => item.id}
-          />
-      </View>
+      <List
+        itemsList={itemsList}
+        setDeleteModal={setDeleteModal}
+      />
 
       {deleteModal && 
         <CustomModal
@@ -77,39 +63,33 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    // flex: 1,
-    // paddingBottom: 80,
-    padding: 30,
-    backgroundColor: '#ffffff'
+    height: '100%',
+    padding: 20,
+    backgroundColor: '#ffe042'
   },
   title:{
     margin: 50,
     fontSize: 80,
-    textAlign: 'center'
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: '#e71989'
   },  
   formContainer: {
-    // width:'100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center;',
-    // marginBottom: 20, 
+    alignItems: 'center',
+    marginBottom: 20, 
   },  
   textInput: {
-    width: '100%',
+    width: '90%',
     fontSize: 50,
-    fontWeight: '200'
+    fontWeight: '200',
+    backgroundColor: '#ffffff',
+    padding: 20,
+    borderRadius: 30
   },
-  itemListContainer:{
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems:'flex-start',
-    width:'100%',
-    height: '100%'
+  buttonInput:{
+    width: '100%',
+    fontSize: 120,
   },
-  itemList:{
-    flexDirection: 'row',
-    alignItems:'center',
-    // margin: 5
-  }
 });
