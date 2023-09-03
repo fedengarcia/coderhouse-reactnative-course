@@ -1,11 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { Fragment, useState } from 'react';
 import { Button, FlatList, StyleSheet, Text, TextInput, View, Modal } from 'react-native';
+import CustomModal from './components/CustomModal';
 
 export default function App() {
   const [itemsList, setItemsList] =  useState([]);
   const [inputValue, setInputValue] = useState('');
-  const [deleteItemModal, setDeleteModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
   const [itemSelected, setItemSelected] = useState({});
 
 
@@ -16,8 +17,8 @@ export default function App() {
     }
   }
 
-  const removeItem = (item) => {
-    let itemsUpdated = itemsList.filter(element => element.id !== item.id);
+  const removeItem = () => {
+    let itemsUpdated = itemsList.filter(element => element.id !== itemSelected.id);
     setItemsList(itemsUpdated)
   }
 
@@ -38,11 +39,12 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text>Welcome !!!</Text>
+      <Text style={styles.title}>Shopping List !!!</Text>
+
       <View style={styles.formContainer}>
         <TextInput 
           style={styles.textInput} 
-          placeholder='Producto a comprar'
+          placeholder='Nuevo item'
           placeholderTextColor={"#ff0000"} 
           value={inputValue} 
           onChangeText={(text)=> setInputValue(text)}/>
@@ -60,27 +62,14 @@ export default function App() {
           />
       </View>
 
-      {deleteItemModal && 
-        <Modal
-        >
-          <View>
-            <Text> Estas seguro que deseas eliminar el {itemSelected.value}</Text>
-          </View>
-          <View styles={styles.itemListContainer}>
-            <Button 
-              title='Aceptar'
-              onPress={() => {
-                removeItem(itemSelected)
-                setDeleteModal(false)
-              }}  
-            />
-            <Button 
-              title='Cancelar'
-              onPress={() => setDeleteModal(false)}  
-            />
-          </View>
-        </Modal>
-      }
+      {deleteModal && 
+        <CustomModal
+          title={`Estas seguro que deseas eliminar el ${itemSelected.value}`}
+          setShowModal={setDeleteModal}
+          acceptButtonName={'Aceptar'}
+          cancelButtonName={'Cancelar'}
+          acceptButtonFunction={removeItem}
+        />}
 
     </View>
   );
@@ -88,12 +77,19 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: '100%',
+    // flex: 1,
+    // paddingBottom: 80,
     padding: 30,
-    paddingBottom: 80,
     backgroundColor: '#ffffff'
   },
+  title:{
+    margin: 50,
+    fontSize: 80,
+    textAlign: 'center'
+  },  
   formContainer: {
+    // width:'100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center;',
@@ -101,7 +97,7 @@ const styles = StyleSheet.create({
   },  
   textInput: {
     width: '100%',
-    fontSize: 20,
+    fontSize: 50,
     fontWeight: '200'
   },
   itemListContainer:{
@@ -114,6 +110,6 @@ const styles = StyleSheet.create({
   itemList:{
     flexDirection: 'row',
     alignItems:'center',
-    margin: 5
+    // margin: 5
   }
 });
