@@ -18,6 +18,7 @@ const List = ({itemsList, setDeleteModal, setItemSelected}) => {
     return (
         <View style={styles.itemListContainer}>
         <FlatList
+        style={styles.list}
             data={itemsList}
             renderItem={renderListItem}
             keyExtractor={item => item.id}
@@ -28,12 +29,18 @@ const List = ({itemsList, setDeleteModal, setItemSelected}) => {
 
 const styles = StyleSheet.create({
     itemListContainer:{
+        borderTopColor: '#2f2f2f',
+        marginTop: 20,
+        borderTopWidth: 1,
         flexDirection: 'column',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         alignItems:'flex-start',
         width:'100%',
         height: '100%'
     },
+    list:{
+        width: '100%'
+    }
 })
 
 export default List;
