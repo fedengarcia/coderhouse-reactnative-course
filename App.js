@@ -3,6 +3,7 @@ import { Fragment, useState } from 'react';
 import { Button, FlatList, StyleSheet, Text, TextInput, View, Modal } from 'react-native';
 import CustomModal from './components/CustomModal';
 import List from './components/List/List';
+import InputForm from './components/InputForm';
 
 export default function App() {
   const [itemsList, setItemsList] =  useState([]);
@@ -11,43 +12,31 @@ export default function App() {
   const [itemSelected, setItemSelected] = useState({});
 
 
-  const addItem = () => {
-    if(inputValue !== ""){
-      setItemsList([...itemsList, {id: Math.random(), value:inputValue}])
-      setInputValue('')
-    }
-  }
-
   const removeItem = () => {
     let itemsUpdated = itemsList.filter(element => element.id !== itemSelected.id);
     setItemsList(itemsUpdated)
   }
 
-  
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>SHOPPING LIST</Text>
 
-      <View style={styles.formContainer}>
-        <TextInput 
-          style={styles.textInput} 
-          placeholder='Nuevo item'
-          placeholderTextColor={"#ff0000"} 
-          value={inputValue} 
-          onChangeText={(text)=> setInputValue(text)}/>
-        <Button
-            style={styles.buttonInput}
-            title="Add item"
-            onPress={() => addItem()} 
-          />
-      </View>
-
+    {/* Input Form to add items to list */}
+      <InputForm
+        itemsList={itemsList}
+        setItemsList={setItemsList}
+        setInputValue={setInputValue}
+        inputValue={inputValue}
+      />
+      
+{/* List items render */}
       <List
         itemsList={itemsList}
         setDeleteModal={setDeleteModal}
       />
 
+{/* Modal */}
       {deleteModal && 
         <CustomModal
           title={`Estas seguro que deseas eliminar el ${itemSelected.value}`}
@@ -74,22 +63,4 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#e71989'
   },  
-  formContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20, 
-  },  
-  textInput: {
-    width: '90%',
-    fontSize: 50,
-    fontWeight: '200',
-    backgroundColor: '#ffffff',
-    padding: 20,
-    borderRadius: 30
-  },
-  buttonInput:{
-    width: '100%',
-    fontSize: 120,
-  },
 });
